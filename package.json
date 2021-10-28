@@ -1,0 +1,109 @@
+{
+  "name": "electron-vite",
+  "version": "0.0.1",
+  "main": "dist/main/index.js",
+  "description": "electron-vite",
+  "scripts": {
+    "dev": "cross-env NODE_ENV=development&& concurrently -n=vue,ele -c=green,blue \"npm run dev:vue\" \"npm run dev:ele\"",
+    "dev:vue": "vite",
+    "dev:ele": "node -r ts-node/register script/build-main --env=development --watch",
+    "build:vue": "vite build",
+    "build:ele": "node -r ts-node/register script/build-main --env=production",
+    "build": "rimraf dist && npm run build:vue && npm run build:ele && electron-builder",
+    "build:dir": "electron-builder --dir"
+  },
+  "build": {
+    "productName": "electron-vite",
+    "appId": "com.szz.electron-vite",
+    "asar": false,
+    "files": [
+      "dist/**"
+    ],
+    "directories": {
+      "output": "build"
+    },
+    "extraResources": {
+      "from": "src/preload",
+      "to": "app/src/preload"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "mac": {
+      "artifactName": "${productName}_${version}.${ext}",
+      "target": [
+        "dmg"
+      ],
+      "icon": "icons/icon.icns"
+    },
+    "win": {
+      "icon": "icons/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_${version}.${ext}",
+      "requestedExecutionLevel": "requireAdministrator"
+    },
+    "linux": {
+      "artifactName": "${productName}-${version}-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false
+    }
+  },
+  "devDependencies": {
+    "@rollup/plugin-alias": "3.1.4",
+    "@rollup/plugin-commonjs": "19.0.1",
+    "@rollup/plugin-json": "4.1.0",
+    "@rollup/plugin-node-resolve": "13.0.2",
+    "@rollup/plugin-typescript": "^8.2.5",
+    "@types/blueimp-md5": "^2.18.0",
+    "@types/minimist": "1.2.2",
+    "@types/wavesurfer.js": "^5.1.0",
+    "@vitejs/plugin-vue": "1.2.5",
+    "@vue/compiler-sfc": "3.1.5",
+    "acorn": "8.4.1",
+    "chalk": "4.1.1",
+    "concurrently": "6.2.0",
+    "cross-env": "7.0.3",
+    "electron": "^14.0.0-beta.17",
+    "electron-builder": "22.11.7",
+    "electron-builder-squirrel-windows": "22.11.8",
+    "minimist": "1.2.5",
+    "ora": "5.4.1",
+    "rimraf": "3.0.2",
+    "rollup-plugin-esbuild": "4.5.0",
+    "stylus": "0.54.8",
+    "stylus-loader": "6.1.0",
+    "ts-node": "10.1.0",
+    "typescript": "4.3.5",
+    "vite": "2.4.2",
+    "vitejs-plugin-electron": "0.1.3"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "element-plus": "^1.0.2-beta.65",
+    "vue": "3.1.4",
+    "vue-router": "4"
+  }
+}

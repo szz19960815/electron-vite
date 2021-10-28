@@ -1,0 +1,11 @@
+node_modules
+/build
+.DS_Store
+dist
+dist-ssr
+*.local
+
+tmp
+**/.tmp
+release
+/yarn.lock
